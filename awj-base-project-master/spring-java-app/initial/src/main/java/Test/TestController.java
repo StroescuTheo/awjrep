@@ -1,4 +1,4 @@
-package hello;
+package test;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GreetingController {
+public class TestController {
 
-    private static final String template = "Numarul este , %d!";
+    private static final String template = "Rezultatul este, %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue=3) int name) {
-        return new Greeting(counter.incrementAndGet(),
+    @RequestMapping("/test")
+    public Test test(@RequestParam(value="name", defaultValue="3") long x) {
+        return new Test(counter.incrementAndGet(),
                             String.format(template, name));
     }
 }

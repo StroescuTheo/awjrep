@@ -1,13 +1,12 @@
-package hello;
+package test;
 
-public class Greeting {
+public class Test{
 
     private final long id;
 	private final long x;
     private final String content;
-	
 
-    public Greeting(long id,long x, String content) {
+    public Test(long id,long x, String content) {
         this.id = id;
 		this.x=x;
         this.content = content;
