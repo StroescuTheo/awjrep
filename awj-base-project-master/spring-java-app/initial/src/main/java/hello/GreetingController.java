@@ -1,4 +1,4 @@
-package hello;
+	package hello;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GreetingController {
 
-    private static final String template = "Numarul este , %d!";
+    private static final String template = "Numarul este , %s!";
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue=3) int name) {
+    public Greeting greeting(@RequestParam(value="name", defaultValue="World") int name) {
         return new Greeting(counter.incrementAndGet(),
                             String.format(template, name));
     }
