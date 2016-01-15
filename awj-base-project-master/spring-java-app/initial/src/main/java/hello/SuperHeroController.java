@@ -1,4 +1,5 @@
-		package hello;
+
+package hello;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,6 +31,18 @@ public class SuperHeroController {
     registration.add(p3);
 	registration.add(p4);
   }
+  
+  
+	  
+	@RequestMapping(value="/SuperHero/{name}/{Identity}/{Secret}/{Team_members}/{Main_Super_Power}", method = RequestMethod.POST)
+	  public ResponseEntity create(@RequestBody SuperHero p) {
+		registration.add(p);
+		
+		return new ResponseEntity<SuperHero>(p, new HttpHeaders(), HttpStatus.OK);
+	  }
+
+  
+  
 
   @RequestMapping(value="/SuperHero", method = RequestMethod.GET)
   public List<SuperHero> index() {
@@ -73,18 +87,7 @@ public class SuperHeroController {
 	 
   }
   
-  //Post
-  @RequestMapping(value="/SuperHero/{name}/{Identity}/{Secret}/{Team_members}/{Main_Super_Power}", method = RequestMethod.POST)
-  public List<SuperHero> add(@PathVariable("name") String name,@PathVariable("Identity") String Identity,@PathVariable("Secret") String Secret,@PathVariable("Team_members") int Team_members,@PathVariable("Main_Super_Power") String Main_Super_Power) {
-	  int i=1;
-	  for(SuperHero p : this.registration)
-	  {
-		  i++;
-	  }
-	  
-    SuperHero p=new SuperHero(i,name,Identity,Secret,Team_members,Main_Super_Power);
-	registration.add(p);
-	return this.registration;
+
 	 
-  }
+  
 }

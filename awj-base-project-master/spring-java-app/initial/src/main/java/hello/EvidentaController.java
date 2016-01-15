@@ -1,4 +1,5 @@
-		package hello;
+
+package hello;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,6 +35,17 @@ public class EvidentaController {
     return grupaa;
   }
 
+	  
+	@RequestMapping(value="/Evidenta/{name}/{prenume}/{medie}/{bursa}", method = RequestMethod.POST)
+	  public ResponseEntity create(@RequestBody Evidenta p) {
+		grupa.add(p);
+		
+		return new ResponseEntity<Evidenta>(p, new HttpHeaders(), HttpStatus.OK);
+	  }
+
+  
+  
+  
   @RequestMapping(value="/Evidenta/{id}", method = RequestMethod.GET)
   public ResponseEntity show(@PathVariable("id") int id) {
     for(Evidenta p : this.grupa) {
@@ -71,18 +84,4 @@ public class EvidentaController {
 	 
   }
   
-  //Post
-  @RequestMapping(value="/Evidenta/{name}/{prenume}/{medie}/{bursa}", method = RequestMethod.POST)
-  public List<Evidenta> add(@PathVariable("name") String name,@PathVariable("prenume") String prenume,@PathVariable("medie") double medie,@PathVariable("bursa") int bursa) {
-	  int i=0;
-	  for(Evidenta p : this.grupa)
-	  {
-		  i++;
-	  }
-	  
-    Evidenta p=new Evidenta(i+1,name,prenume,medie,bursa);
-	grupa.add(p);
-	return this.grupa;
-	 
-  }
 }

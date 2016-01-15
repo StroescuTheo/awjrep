@@ -1,4 +1,5 @@
-		package hello;
+
+package hello;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -71,17 +73,15 @@ public class CarteController {
 	 
   }
   
-  //Post
-  @RequestMapping(value="/Carte/{titlu}/{gen}/{pagini}/{pret}", method = RequestMethod.POST)
-  public List<Carte> add(@PathVariable("titlu") String titlu,@PathVariable("gen") String gen,@PathVariable("pagini") int pagini,@PathVariable("pret") double pret) {
-	  long i=0;
-	  for(Carte p : this.biblioteca)
-	  {
-		  i=p.getCod();
-	  }  
-    Carte p=new Carte(i+1,titlu,gen,pagini,pret);
-	biblioteca.add(p);
-	return this.biblioteca;
-	 
-  }
+	  
+	@RequestMapping(value="/Carte/{titlu}/{gen}/{pagini}/{pret}", method = RequestMethod.POST)
+	  public ResponseEntity create(@RequestBody Carte p) {
+		biblioteca.add(p);
+		
+		return new ResponseEntity<Carte>(p, new HttpHeaders(), HttpStatus.OK);
+	  }
+
+  
+  
+
 }

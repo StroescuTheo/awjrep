@@ -13,11 +13,12 @@ public class Evidenta {
   public Evidenta() {}
 
   public Evidenta(int id, String name,String prenume,double medie,int bursa) {
-      this.name = name;
+         this.id = id;
+	  this.name = name;
 	  this.prenume=prenume;
 	  this.medie=medie;
 	  this.bursa=bursa;
-      this.id = id;
+   
   }
 
   public String getName() {

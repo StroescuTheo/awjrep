@@ -4,22 +4,24 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SuperHero {
+    private int id;
   private String name;
   private String Identity;
   private String Secret;
   private int Team_Members;
   private String Main_Super_Power;//{Flight,Strength,Lasers,Healing,None,Agility};
-  private int id;
+
 
   public SuperHero() {}
 
   public SuperHero(int id, String name,String Identity,String Secret,int Team_Members,String Main_Super_Power) {
-      this.name = name;
+     this.id = id;
+	 this.name = name;
 	  this.Identity=Identity;
 	  this.Secret=Secret;
 	  this.Team_Members=Team_Members;
 	  this.Main_Super_Power=Main_Super_Power;
-      this.id = id;
+      
   }
 
   public String getName() {

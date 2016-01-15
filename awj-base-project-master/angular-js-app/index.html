@@ -4,6 +4,10 @@
   <title>My application</title>
   <link rel="stylesheet" media="all" href="css/bootstrap.min.css">
   <link rel="stylesheet" media="all" href="css/custom.css">
+   <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/app.js"></script>
 </head>
 <body>
   <div class="container">
@@ -21,8 +25,8 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Librarie</a></li>
-            <li><a href="#">Evidenta</a></li>
+            <li><a href="#">Resource 1</a></li>
+            <li><a href="#">Resource 2</a></li>
           </ul>
         </div>
       </div>
@@ -33,32 +37,24 @@
 
   <div class="container">
     <div ng-controller="HomeController">
-      <h1>{{ helloWorld }}</h1>
-      <p>Writing this live into the browser...</p>
+      <h1> {{ helloWorld }}</h1>
     </div>
   </div>
 
   <hr/>
 
   <!-- /resources1 -->
-  <div class="container">
-    <h1>Librarie</h1>
-    <h2>List all Books</h2>
+  <div class="container" ng-controller="HomeController">
+    <h1>Resource 1</h1>
+    <h2>List all resources</h2>
     <table class="table table-bordered">
       <tr>
-        <th>Cod</th>
-        <th>Titlu</th>
-        <th>Gen</th>
-        <th>Pagini</th>
-		<th>Pret</th>
+        <th ng-repeat="key in keys">{{ key }}</th>
         <th style="width:210px;">Options</th>
       </tr>
-      <tr>
-        <td>46456</td>
-        <td>Lost Girl</td>
-        <td>Drama</td>
-        <td>255</td>
-		<td>87.5</td>
+      <tr ng-repeat="item in persoane" data-id="{{ item.id }}">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
         <td>
           <a href="">
             <span class="label label-success">
@@ -66,129 +62,420 @@
               <span class="glyphicon glyphicon-folder-open"></span>
             </span>
           </a>
-          <a href="">
-            <span class="label label-primary">
+          <button ng-click="setUpdatePerson(item)" class="btn btn-info btn-xs">
               Edit
               <span class="glyphicon glyphicon-edit"></span>
-            </span>
           </a>
-          <a href="">
-            <span class="label label-danger">
+          <button ng-click="deletePersoana(item.id)" class="btn btn-danger btn-xs">
               Remove
               <span class="glyphicon glyphicon-remove"></span>
-            </span>
+            </button>
           </a>
         </td>
       </tr>
-      <tr>
-        <td>2694</td>
-        <td>The spy that died</td>
-        <td>Actiune</td>
-        <td>853</td>
-		<td>129.99</td>
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>99621</td>
-        <td>What if</td>
-        <td>Drama</td>
-        <td>89</td>
-		<td>100</td>
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      
     </table>
 
+    <h2>Add new person</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" class="form-control" ng-model="person.id"/></td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td><input type="text" class="form-control" ng-model="person.name"/></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button ng-click="addPersoana(person)" class="btn btn-primary btn-xs">Add</button>
+        </td>
+      </tr>
+    </table>
+
+
+    <h2>Edit a person</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" ng-model="editPerson.id"></td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td><input type="text" ng-model="editPerson.name"></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button class="btn btn-info btn-xs" ng-click="updatePerson(editPerson)">
+            Update
+          </button>
+        </td>
+      </tr>
+    </table>
+
+
+	
+  <!-- /resources2 -->
+  <div class="container" ng-controller="HomeController">
+    <h1>Evidenta 1</h1>
+    <h2>List all Elevi</h2>
+	
+    <table class="table table-bordered">
+      <tr>
+	  
+        <th ng-repeat="key in orderedKeys">{{key}}</th>
+        <th style="width:210px;">Options</th>
+      </tr>
+      <tr ng-repeat="item in grupa.data" data-id="{{ item.id }}">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+		<td>{{ item.prenume }}</td>
+		<td>{{ item.medie }}</td>
+		<td>{{ item.bursa }}</td>
+		
+        <td>
+          <a href="">
+            <span class="label label-success">
+              Open
+              <span class="glyphicon glyphicon-folder-open"></span>
+            </span>
+          </a>
+          <button ng-click="setUpdateGroup(item)" class="btn btn-info btn-xs">
+              Edit
+              <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <button ng-click="deleteEvidenta(item.id)" class="btn btn-danger btn-xs">
+              Remove
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <h2>Add new group</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" class="form-control" ng-model="evidenta.id"/></td>
+      </tr>
+      <tr>
+        <td>Nume</td>
+        <td><input type="text" class="form-control" ng-model="evidenta.name"/></td>
+      </tr>
+	    <tr>
+        <td>Prenume</td>
+        <td><input type="text" class="form-control" ng-model="evidenta.prenume"/></td>
+      </tr>
+	    <tr>
+        <td>medie</td>
+        <td><input type="text" class="form-control" ng-model="evidenta.medie"/></td>
+      </tr>
+	    <tr>
+        <td>bursa</td>
+        <td><input type="text" class="form-control" ng-model="evidenta.bursa"/></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button ng-click="addEvidenta(evidenta)" class="btn btn-primary btn-xs">Add Now</button>
+        </td>
+      </tr>
+    </table>
+
+
+    <h2>Edit a group</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" ng-model="editGroup.id"></td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td><input type="text" ng-model="editGroup.name"></td>
+      </tr>
+	  <tr>
+        <td>Prenume</td>
+        <td><input type="text" ng-model="editGroup.prenume"></td>
+      </tr>
+	  <tr>
+        <td>Medie</td>
+        <td><input type="text" ng-model="editGroup.medie"></td>
+      </tr>
+	  <tr>
+        <td>Bursa</td>
+        <td><input type="text" ng-model="editGroup.bursa"></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button class="btn btn-info btn-xs" ng-click="updateGroup(editGroup)">
+            Update
+          </button>
+        </td>
+      </tr>
+    </table>
+
+	
+
+		
+  <!-- /resources1 -->
+  <div class="container" ng-controller="HomeController">
+    <h1>SuperHero 1</h1>
+    <h2>List all Elevi</h2>
+	
+    <table class="table table-bordered">
+      <tr>
+	  
+        <th ng-repeat="key in keysSuperHero">{{key}}</th>
+        <th style="width:210px;">Options</th>
+      </tr>
+      <tr ng-repeat="item in registration.data" data-id="{{ item.id }}">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+		<td>{{ item.identity }}</td>
+		<td>{{ item.secret }}</td>
+		<td>{{ item.team_Memebers }}</td>
+		<td>{{ item.main_Super_Power }}</td>
+		
+		
+        <td>
+          <a href="">
+            <span class="label label-success">
+              Open
+              <span class="glyphicon glyphicon-folder-open"></span>
+            </span>
+          </a>
+          <button ng-click="setUpdatesuper(item)" class="btn btn-info btn-xs">
+              Edit
+              <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <button ng-click="deleteSuperHero(item.id)" class="btn btn-danger btn-xs">
+              Remove
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <h2>Add new super</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" class="form-control" ng-model="super.id"/></td>
+      </tr>
+      <tr>
+        <td>Nume</td>
+        <td><input type="text" class="form-control" ng-model="super.name"/></td>
+      </tr>
+	    <tr>
+        <td>identity</td>
+        <td><input type="text" class="form-control" ng-model="super.Identity"/></td>
+      </tr>
+	    <tr>
+        <td>Secret</td>
+        <td><input type="text" class="form-control" ng-model="super.Secret"/></td>
+      </tr>
+	    <tr>
+        <td>Team_members</td>
+        <td><input type="text" class="form-control" ng-model="super.team_members"/></td>
+      </tr>
+	    <tr>
+        <td>main_Super_Power</td>
+        <td><input type="text" class="form-control" ng-model="super.main_Super_Power"/></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button ng-click="addSuperHero(super)" class="btn btn-primary btn-xs">Add Now</button>
+        </td>
+      </tr>
+    </table>
+
+
+    <h2>Edit a super</h2>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td><input type="text" ng-model="editsuper.id"></td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td><input type="text" ng-model="editsuper.name"></td>
+      </tr>
+	  <tr>
+        <td>Identity</td>
+        <td><input type="text" ng-model="editsuper.identity"></td>
+      </tr>
+	  <tr>
+        <td>Secret</td>
+        <td><input type="text" ng-model="editsuper.secret"></td>
+      </tr>
+	  <tr>
+        <td>team_members</td>
+        <td><input type="text" ng-model="editsuper.team_members"></td>
+      </tr>
+	    <tr>
+        <td>main_Super_Power</td>
+        <td><input type="text" ng-model="editsuper.main_Super_Power"></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button class="btn btn-info btn-xs" ng-click="updatesuper(editsuper)">
+            Update
+          </button>
+        </td>
+      </tr>
+    </table>
+
+	
+
+			
+  <!-- /resources1 -->
+  <div class="container" ng-controller="HomeController">
+    <h1>Carte 1</h1>
+    <h2>List all Books</h2>
+	
+    <table class="table table-bordered">
+      <tr>
+	  
+        <th ng-repeat="key in keysCarte">{{key}}</th>
+        <th style="width:210px;">Options</th>
+      </tr>
+      <tr ng-repeat="item in biblioteca.data" data-id="{{item.id}}" class ="cod_{{item.cod}}">
+        <td>{{ item.cod }}</td>
+        <td>{{ item.titlu }}</td>
+		<td>{{ item.gen }}</td>
+		<td>{{ item.pagini }}</td>
+		<td>{{ item.pret }}</td>
+		
+		
+        <td>
+          <a href="">
+            <span class="label label-success">
+              Open
+              <span class="glyphicon glyphicon-folder-open"></span>
+            </span>
+          </a>
+          <button ng-click="setUpdatebook(item)" class="btn btn-info btn-xs">
+              Edit
+              <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <button ng-click="deleteCarte(item.cod)" class="btn btn-danger btn-xs">
+              Remove
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <h2>Add new book</h2>
+    <table>
+      <tr>
+        <td>Cod</td>
+        <td><input type="text" class="form-control" ng-model="book.cod"/></td>
+      </tr>
+      <tr>
+        <td>Titlu</td>
+        <td><input type="text" class="form-control" ng-model="book.titlu"/></td>
+      </tr>
+	    <tr>
+        <td>gen</td>
+        <td><input type="text" class="form-control" ng-model="book.gen"/></td>
+      </tr>
+	    <tr>
+        <td>pagini</td>
+        <td><input type="text" class="form-control" ng-model="book.pagini"/></td>
+      </tr>
+	    <tr>
+        <td>pret</td>
+        <td><input type="text" class="form-control" ng-model="book.pret"/></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button ng-click="addCarte(book)" class="btn btn-primary btn-xs">Add Now</button>
+        </td>
+      </tr>
+    </table>
+
+
+    <h2>Edit a book</h2>
+    <table>
+      <tr>
+        <td>cod</td>
+        <td><input type="text" ng-model="editbook.cod"></td>
+      </tr>
+      <tr>
+        <td>titlu</td>
+        <td><input type="text" ng-model="editbook.titlu"></td>
+      </tr>
+	  <tr>
+        <td>gen</td>
+        <td><input type="text" ng-model="editbook.gen"></td>
+      </tr>
+	  <tr>
+        <td>pagini</td>
+        <td><input type="text" ng-model="editbook.pagini"></td>
+      </tr>
+	  <tr>
+        <td>pret</td>
+        <td><input type="text" ng-model="editbook.pret"></td>
+      </tr>
+      <tr>
+        <td colspan="5">
+          <button class="btn btn-info btn-xs" ng-click="updatebook(editbook)">
+            Update
+          </button>
+        </td>
+      </tr>
+    </table>
+
+	
+	
+	
+	
+	<!--
     <div class="row">
       <div class="col-md-3">
-        <h2>Edit a Book</h2>
+        <h2>Edit a resource1</h2>
         <form action="" method="">
           <div class="form-group">
-            <label for="attribute1">Cod</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="Cod">
+            <label for="attribute1">Attribute 1</label>
+            <input type="text" class="form-control" id="attribute1" placeholder="Attribute 1">
           </div>
           <div class="form-group">
-            <label for="attribute2">Titlu</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Titlu">
+            <label for="attribute2">Attribute 2</label>
+            <input type="text" class="form-control" id="attribute2" placeholder="Attribute 2">
           </div>
           <div class="form-group">
-            <label for="attribute3">Gen</label>
-            <input type="text" class="form-control" id="attribute3" placeholder="Gen">
+            <label for="attribute3">Attribute 3</label>
+            <input type="text" class="form-control" id="attribute3" placeholder="Attribute 3">
           </div>
           <div class="form-group">
-            <label for="attribute4">Pagini</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Pagini">
+            <label for="attribute4">Attribute 4</label>
+            <input type="text" class="form-control" id="attribute4" placeholder="Attribute 4">
           </div>
-		  <div class="form-group">
-            <label for="attribute4">Pret</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Pret">
-          </div>
-		  
           <button type="submit" class="btn btn-info">Save</button>
         </form>
       </div>
 
 
       <div class="col-md-3 col-md-offset-6">
-        <h2>Add a Book</h2>
+        <h2>Add a resource1</h2>
         <form action="" method="">
           <div class="form-group">
-            <label for="attribute1">Cod</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="Cod">
+            <label for="attribute1">Attribute 1</label>
+            <input type="text" class="form-control" id="attribute1" placeholder="Attribute 1">
           </div>
           <div class="form-group">
-            <label for="attribute2">Titlu</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Titlu">
+            <label for="attribute2">Attribute 2</label>
+            <input type="text" class="form-control" id="attribute2" placeholder="Attribute 2">
           </div>
           <div class="form-group">
-            <label for="attribute3">Gen</label>
-            <input type="text" class="form-control" id="attribute3" placeholder="Gen">
+            <label for="attribute3">Attribute 3</label>
+            <input type="text" class="form-control" id="attribute3" placeholder="Attribute 3">
           </div>
           <div class="form-group">
-            <label for="attribute4">Pagini</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Pagini">
-          </div>
-		   <div class="form-group">
-            <label for="attribute4">Pret</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Pret">
+            <label for="attribute4">Attribute 4</label>
+            <input type="text" class="form-control" id="attribute4" placeholder="Attribute 4">
           </div>
           <button type="submit" class="btn btn-success">Add</button>
         </form>
@@ -197,202 +484,28 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h2>Show a Book</h2>
+        <h2>Show a resource1</h2>
       </div>
       <div class="col-md-2">
         <img src="http://lorempixel.com/200/200/technics/?id=1" class="img-thumbnail"/>
       </div>
       <div class="col-md-10">
-        <h1>46456</h1>
-        <p>Lost Girl, Drama</p>
+        <h1>Attribute 1</h1>
+        <p>Attribute 2, Attribute 3</p>
         <h3>Sub resource</h3>
         <table class="table table-bordered table-striped">
           <tr>
-            <th>Pagini</th>
-            <th>Pret</th>
+            <th>Attribute 5</th>
+            <th>Attribute 6</th>
           </tr>
           <tr>
-            <td>255</td>
-            <td>87.5</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem</td>
           </tr>
-		  </table>
-      </div>
-    </div>
-  </div>
-
-  <hr/>
-
-  <!-- /resources2-->
-  <div class="container">
-    <h1>Evidenta</h1>
-    <h2>List all Students</h2>
-    <table class="table table-bordered">
-      <tr>
-        <th>ID</th>
-        <th>Nume</th>
-		<th>Prenume</th>
-		<th>Medie</th>
-		<th>Bursa</th>
-		
-        <th style="width:210px;">Options</th>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Jones</td>
-        <td>Doe</td>
-        <td>8.75</td>
-        <td>1500</td>
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Paul</td>
-        <td>Clones</td>
-        <td>9.20</td>
-        <td>2000</td>
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Laur</td>
-        <td>Cloves</td>
-        <td>7</td>
-        <td>0</td>
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-  </table>
-
-    <div class="row">
-      <div class="col-md-3">
-        <h2>Edit a Student</h2>
-        <form action="" method="">
-          <div class="form-group">
-            <label for="attribute1">Id</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Nume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Nume">
-          </div>
-		  <div class="form-group">
-            <label for="attribute2">Prenume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Prenume">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Medie</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Medie">
-          </div>
-		  <div class="form-group">
-            <label for="attribute2">Bursa</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Bursa">
-          </div>
-		  <button type="submit" class="btn btn-info">Save</button>
-        </form>
-      </div>
-
-
-      <div class="col-md-3 col-md-offset-6">
-        <h2>Add a Student</h2>
-        <form action="" method="">
-          <div class="form-group">
-            <label for="attribute1">ID</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Nume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Nume">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Prenume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Prenume">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Medie</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Medie">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Bursa</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Bursa">
-          </div>
-          <button type="submit" class="btn btn-success">Add</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Show a Student</h2>
-      </div>
-      <div class="col-md-2">
-        <img src="http://lorempixel.com/200/200/technics/?id=2" class="img-thumbnail"/>
-      </div>
-      <div class="col-md-10">
-        <h1>1</h1>
-        <p>Jones, Doe</p>
-        <h3>Sub resource</h3>
-        <table class="table table-bordered table-striped">
           <tr>
-            <th>8.75</th>
-            <th>1500</th>
+            <td>Lorem ipsum dolor</td>
+            <td>Sir</td>
           </tr>
-          
         </table>
       </div>
     </div>
@@ -400,243 +513,18 @@
 
   <hr/>
 
-  
-   <div class="container">
-    <h1>Superheros</h1>
-    <h2>List all Superheros</h2>
-    <table class="table table-bordered">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Identity</th>
-        <th>Secret</th>
-		<th>Team_members</th>
-		<th>Main_super_power</th>
-		
-        <th style="width:210px;">Options</th>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Batman</td>
-        <td>Bruce Wayne</td>
-        <td>Yes</td>
-		<td>2</td>
-		<td>None</td>
-		
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Thor</td>
-        <td>Thor Odinson</td>
-        <td>No</td>
-		<td>5</td>
-		<td>Strength</td>
-		
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Black Panther</td>
-        <td>T'Challa</td>
-        <td>No</td>
-		<td>0</td>
-		<td>Agility</td>
-		
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-	  <tr>
-        <td>4</td>
-        <td>Hulk</td>
-        <td>Bruce Banner</td>
-        <td>No</td>
-		<td>5</td>
-		<td>Strength</td>
-		
-        <td>
-          <a href="">
-            <span class="label label-success">
-              Open
-              <span class="glyphicon glyphicon-folder-open"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-primary">
-              Edit
-              <span class="glyphicon glyphicon-edit"></span>
-            </span>
-          </a>
-          <a href="">
-            <span class="label label-danger">
-              Remove
-              <span class="glyphicon glyphicon-remove"></span>
-            </span>
-          </a>
-        </td>
-      </tr>
-      
-    </table>
-
-    <div class="row">
-      <div class="col-md-3">
-        <h2>Edit a Superhero</h2>
-        <form action="" method="">
-          <div class="form-group">
-            <label for="attribute1">ID</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Name</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="attribute3">Identity</label>
-            <input type="text" class="form-control" id="attribute3" placeholder="Identity">
-          </div>
-          <div class="form-group">
-            <label for="attribute4">Secret</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Secret">
-          </div>
-		  <div class="form-group">
-            <label for="attribute4">Team_members</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Team_members">
-          </div>
-		  <div class="form-group">
-            <label for="attribute4">Main_super_power</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Main_super_power">
-          </div>
-		  
-          <button type="submit" class="btn btn-info">Save</button>
-        </form>
-      </div>
-
-
-      <div class="col-md-3 col-md-offset-6">
-        <h2>Add a Superhero</h2>
-        <form action="" method="">
-          <div class="form-group">
-            <label for="attribute1">ID</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
-          </div>
-          <div class="form-group">
-            <label for="attribute2">Name</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="attribute3">Identity</label>
-            <input type="text" class="form-control" id="attribute3" placeholder="Identity">
-          </div>
-          <div class="form-group">
-            <label for="attribute4">Secret</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Secret">
-          </div>
-		   <div class="form-group">
-            <label for="attribute4">Team_members</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Team_members">
-          </div>
-		  <div class="form-group">
-            <label for="attribute4">Main_super_power</label>
-            <input type="text" class="form-control" id="attribute4" placeholder="Main_super_power">
-          </div>
-          <button type="submit" class="btn btn-success">Add</button>
-        </form>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Show a Superhero</h2>
-      </div>
-      <div class="col-md-2">
-        <img src="http://lorempixel.com/200/200/technics/?id=1" class="img-thumbnail"/>
-      </div>
-      <div class="col-md-10">
-        <h1>1</h1>
-        <p>Batman, Bruce Wayne</p>
-        <h3>Sub resource</h3>
-        <table class="table table-bordered table-striped">
-          <tr>
-            <th>Yes</th>
-            <th>2</th>
-          </tr>
-		  </table>
-      </div>
-    </div>
-  </div>
-  
-  
-
-  <hr/>
-  
   <div class="container">
-    <h1>Persoane</h1>
-    <h2>List all Persons</h2>
+    <h1>Resource 2</h1>
+    <h2>List all resources</h2>
     <table class="table table-bordered">
       <tr>
-        <th>ID</th>
-        <th>Nume</th>
+        <th>Attribute 1</th>
+        <th>Attribute 2</th>
         <th style="width:210px;">Options</th>
       </tr>
       <tr>
-        <td>1</td>
-        <td>John</td>
+        <td>Lorem</td>
+        <td>Sit</td>
         <td>
           <a href="">
             <span class="label label-success">
@@ -659,8 +547,8 @@
         </td>
       </tr>
       <tr>
-        <td>2</td>
-        <td>Paul</td>
+        <td>Ipsum</td>
+        <td>Lorem</td>
         <td>
           <a href="">
             <span class="label label-success">
@@ -683,8 +571,8 @@
         </td>
       </tr>
       <tr>
-        <td>3</td>
-        <td>Paul</td>
+        <td>Sit</td>
+        <td>Dolor</td>
         <td>
           <a href="">
             <span class="label label-success">
@@ -705,20 +593,44 @@
             </span>
           </a>
         </td>
-      
+      </tr>
+      <tr>
+        <td>Lorem</td>
+        <td>Ipsum</td>
+        <td>
+          <a href="">
+            <span class="label label-success">
+              Open
+              <span class="glyphicon glyphicon-folder-open"></span>
+            </span>
+          </a>
+          <a href="">
+            <span class="label label-primary">
+              Edit
+              <span class="glyphicon glyphicon-edit"></span>
+            </span>
+          </a>
+          <a href="">
+            <span class="label label-danger">
+              Remove
+              <span class="glyphicon glyphicon-remove"></span>
+            </span>
+          </a>
+        </td>
+      </tr>
     </table>
 
     <div class="row">
       <div class="col-md-3">
-        <h2>Edit a Person</h2>
+        <h2>Edit a resource2</h2>
         <form action="" method="">
           <div class="form-group">
-            <label for="attribute1">ID</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
+            <label for="attribute1">Attribute 1</label>
+            <input type="text" class="form-control" id="attribute1" placeholder="Attribute 1">
           </div>
           <div class="form-group">
-            <label for="attribute2">Nume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Nume">
+            <label for="attribute2">Attribute 2</label>
+            <input type="text" class="form-control" id="attribute2" placeholder="Attribute 2">
           </div>
           <button type="submit" class="btn btn-info">Save</button>
         </form>
@@ -726,15 +638,15 @@
 
 
       <div class="col-md-3 col-md-offset-6">
-        <h2>Add a Person</h2>
+        <h2>Add a resource2</h2>
         <form action="" method="">
           <div class="form-group">
-            <label for="attribute1">ID</label>
-            <input type="text" class="form-control" id="attribute1" placeholder="ID">
+            <label for="attribute1">Attribute 1</label>
+            <input type="text" class="form-control" id="attribute1" placeholder="Attribute 1">
           </div>
           <div class="form-group">
-            <label for="attribute2">Nume</label>
-            <input type="text" class="form-control" id="attribute2" placeholder="Nume">
+            <label for="attribute2">Attribute 2</label>
+            <input type="text" class="form-control" id="attribute2" placeholder="Attribute 2">
           </div>
           <button type="submit" class="btn btn-success">Add</button>
         </form>
@@ -743,31 +655,42 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h2>Show a Person</h2>
+        <h2>Show a resource2</h2>
       </div>
       <div class="col-md-2">
         <img src="http://lorempixel.com/200/200/technics/?id=2" class="img-thumbnail"/>
       </div>
       <div class="col-md-10">
-        <h1>1</h1>
-        <p>John</p>
-       
+        <h1>Attribute 1</h1>
+        <p>Attribute 2, Attribute 3</p>
+        <h3>Sub resource</h3>
+        <table class="table table-bordered table-striped">
+          <tr>
+            <th>Attribute 5</th>
+            <th>Attribute 6</th>
+          </tr>
+          <tr>
+            <td>Lorem ipsum</td>
+            <td>Lorem</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum dolor</td>
+            <td>Sir</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
 
   <hr/>
-
+-->
   <div class="container">
     <footer class="footer">
       <p class="text-muted pull-left">AWJ Base Project &copy; 2015-2016</p>
-      <p class="text-muted pull-right">Stroescu Bogdan-Theodor, 332AB</p>
+      <p class="text-muted pull-right">Sirbu Nicolae-Cezar, 331AA</p>
     </footer>
   </div>
 
-  <script src="js/jquery-1.11.3.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/angular.min.js"></script>
-  <script src="js/app.js"></script>
+ 
 </body>
 </html>
