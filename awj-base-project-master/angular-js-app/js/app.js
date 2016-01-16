@@ -95,32 +95,29 @@ var app = angular.module('blog', [ ]);
 	 $scope.orderedKeys.push($scope.keysGrupa[1]);
 	 $scope.orderedKeys.push($scope.keysGrupa[2]);
 	 $scope.orderedKeys.push($scope.keysGrupa[3]);
-	 console.log("asjfgasgfashgjhgdjgafsagfjhgafjhgasfgasfhasfjgasgfasgfsgfshagfhasj",$scope.orderedKeys)
-	 console.log($scope.keysGrupa);
-	 
+	
    });
  
  
  
 	 $scope.addEvidenta = function(evidenta) {
-	 console.log("va fi adaugat:",  $scope.evidenta)
     $scope.grupa.data.push(evidenta);
-	console.log("dupa adaugare:",$scope.grupa.data);
-    $http.post("http://localhost:8080/Evidenta", evidenta);
+   $http.post("http://localhost:8080/Evidenta", evidenta);
     $scope.evidenta = {};
   };
 	
-	  $scope.updatePerson = function() {
-    $http.put('http://localhost:8080/persoana', $scope.editPerson);
-    $scope.editPerson = {};
+	  $scope.updateEvidenta = function() {
+    $http.put('http://localhost:8080/Evidenta', $scope.editEvidenta);
+    $scope.editEvidenta = {};
   };
 	
 	
 	 $scope.deleteEvidenta = function(id) {
-    $http.delete('http://localhost:8080/evidenta/' + id)
+    $http.delete('http://localhost:8080/Evidenta/' + id)
 		.then(
 			function successCallback(response) {
         /* code goes here */
+		angular.element('[data-id=' + id + ']').remove();
       },
       function errorCallback(response) {
         angular.element('[data-id=' + id + ']').remove();
@@ -141,8 +138,6 @@ var app = angular.module('blog', [ ]);
 	
 	
 	
-	
-	
 	 var url3 = "http://localhost:8080/SuperHero";
    $scope.registration = [];
    $scope.keysSuperHero = [];
@@ -153,39 +148,27 @@ var app = angular.module('blog', [ ]);
  
 	 $http.get(url3).then(
      function successCallback(response) {
-		//$scope.obj2=response;
+		$scope.obj2=response;
      $scope.registration = response;
      $scope.keysSuperHero = Object.keys(response.data[0]);
 	   });
  
  
- 
-
-   $scope.addSuperHero = function(SuperHero) {
-        SuperHero.id = parseInt(SuperHero.id);
-        console.log(SuperHero.id);
-        $http({
-            method: 'POST',
-            url: url3,
-            data: SuperHero
-        }).then(function successCallback(response) {
-            console.log(response);
-            $scope.registration.push(SuperHero);
-            // done.
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-    };
-	
+  $scope.addSuperHero = function(SuperHero) {
+    $scope.registration.data.push(SuperHero);
+   $http.post("http://localhost:8080/SuperHero", SuperHero);
+    $scope.SuperHero = {};
+  };
+  
 	 $scope.deleteSuperHero = function(id) {
         $http({
             method: 'DELETE',
             url: url3+'/' + id,
             data: {}
         }).then(function successCallback(response) {
-            // aici nu intra niciodata ca e functia de succes
+          		angular.element('[data-id=' + id + ']').remove();
         }, function errorCallback(response) {
-            // aici intra pentru ca da eroare
+				angular.element('[data-id=' + id + ']').remove();
             $scope.registration = $scope.registration.filter(function(obj2) {
                 return obj2.id !== id;
             });
@@ -193,27 +176,18 @@ var app = angular.module('blog', [ ]);
     };
 
 	
-	 $scope.setUpdatesuperh = function(superh) {
+	
+	 $scope.setUpdateSuperh = function(superh) {
         $scope.editsuperh = superh;
     };
 
 	
 	
-    $scope.updatesuperho = function() {
-        $http({
-            method: 'PUT',
-            url: url3,
-            data: $scope.editsuperh
-        }).then(function successCallback(response) {
-            $scope.editsuperh = {};
-            console.log(response);
-            // $scope.persoane.push($scope.editPerson);
-            // done.
-        }, function errorCallback(response) {
-            $scope.editsuperh = {};
-            console.log(response);
-        });
-    };
+	
+	  $scope.updateSuperh = function() {
+    $http.put('http://localhost:8080/SuperHero', $scope.editSuperh);
+    $scope.editSuperh = {};
+  };
 	
 	
 	
@@ -229,11 +203,8 @@ var app = angular.module('blog', [ ]);
  
 	 $http.get(url3).then(
      function successCallback(response) {
-	 console.log("primeste:", response)
-		//$scope.obj2=response;
-     $scope.biblioteca = response;
-	 console.log("askfhaskjfgahsgfsafgjsafjafsdjfasjdfasjdfashgdfhgasfdhgasdfgasfdhjsad",$scope.biblioteca.data.id);
-     $scope.keysCarte = Object.keys(response.data[0]);
+	  $scope.biblioteca = response;
+	 $scope.keysCarte = Object.keys(response.data[0]);
 	   });
  
  
@@ -248,11 +219,11 @@ var app = angular.module('blog', [ ]);
   };
 
 	 $scope.deleteCarte = function(cod) {
-	 console.log("id esteeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:",cod);
+	 console.log("id este:",cod);
     $http.delete("http://localhost:8080/Carte/" + cod)
 		.then(
 			function successCallback(response) {
-        /* code goes here */
+         angular.element('[data-id=' + cod + ']').remove();
       },
       function errorCallback(response) {
         angular.element('[data-id=' + cod + ']').remove();
@@ -274,9 +245,6 @@ var app = angular.module('blog', [ ]);
             data: $scope.editbook
         }).then(function successCallback(response) {
             $scope.editbook = {};
-            console.log(response);
-            // $scope.persoane.push($scope.editPerson);
-            // done.
         }, function errorCallback(response) {
             $scope.editbook = {};
             console.log(response);

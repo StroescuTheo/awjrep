@@ -25,8 +25,10 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Resource 1</a></li>
-            <li><a href="#">Resource 2</a></li>
+            <li><a href="#">Persoane</a></li>
+            <li><a href="#">Elevi</a></li>
+			<li><a href="#">SuperHero</a></li>
+            <li><a href="#">Carti</a></li>
           </ul>
         </div>
       </div>
@@ -45,8 +47,8 @@
 
   <!-- /resources1 -->
   <div class="container" ng-controller="HomeController">
-    <h1>Resource 1</h1>
-    <h2>List all resources</h2>
+    <h1>Persoane</h1>
+    <h2>List all Persons</h2>
     <table class="table table-bordered">
       <tr>
         <th ng-repeat="key in keys">{{ key }}</th>
@@ -117,7 +119,7 @@
   <!-- /resources2 -->
   <div class="container" ng-controller="HomeController">
     <h1>Evidenta 1</h1>
-    <h2>List all Elevi</h2>
+    <h2>List all Groups</h2>
 	
     <table class="table table-bordered">
       <tr>
@@ -219,7 +221,7 @@
   <!-- /resources1 -->
   <div class="container" ng-controller="HomeController">
     <h1>SuperHero 1</h1>
-    <h2>List all Elevi</h2>
+    <h2>List all Superheros</h2>
 	
     <table class="table table-bordered">
       <tr>
@@ -243,7 +245,7 @@
               <span class="glyphicon glyphicon-folder-open"></span>
             </span>
           </a>
-          <button ng-click="setUpdatesuper(item)" class="btn btn-info btn-xs">
+          <button ng-click="setUpdateSuperh(item)" class="btn btn-info btn-xs">
               Edit
               <span class="glyphicon glyphicon-edit"></span>
           </a>
@@ -260,31 +262,31 @@
     <table>
       <tr>
         <td>ID</td>
-        <td><input type="text" class="form-control" ng-model="super.id"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.id"/></td>
       </tr>
       <tr>
         <td>Nume</td>
-        <td><input type="text" class="form-control" ng-model="super.name"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.name"/></td>
       </tr>
 	    <tr>
         <td>identity</td>
-        <td><input type="text" class="form-control" ng-model="super.Identity"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.identity"/></td>
       </tr>
 	    <tr>
         <td>Secret</td>
-        <td><input type="text" class="form-control" ng-model="super.Secret"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.secret"/></td>
       </tr>
 	    <tr>
         <td>Team_members</td>
-        <td><input type="text" class="form-control" ng-model="super.team_members"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.team_members"/></td>
       </tr>
 	    <tr>
         <td>main_Super_Power</td>
-        <td><input type="text" class="form-control" ng-model="super.main_Super_Power"/></td>
+        <td><input type="text" class="form-control" ng-model="superh.main_Super_Power"/></td>
       </tr>
       <tr>
         <td colspan="5">
-          <button ng-click="addSuperHero(super)" class="btn btn-primary btn-xs">Add Now</button>
+          <button ng-click="addSuperHero(superh)" class="btn btn-primary btn-xs">Add Now</button>
         </td>
       </tr>
     </table>
@@ -294,31 +296,31 @@
     <table>
       <tr>
         <td>ID</td>
-        <td><input type="text" ng-model="editsuper.id"></td>
+        <td><input type="text" ng-model="editSuper.id"></td>
       </tr>
       <tr>
         <td>Name</td>
-        <td><input type="text" ng-model="editsuper.name"></td>
+        <td><input type="text" ng-model="editSuper.name"></td>
       </tr>
 	  <tr>
         <td>Identity</td>
-        <td><input type="text" ng-model="editsuper.identity"></td>
+        <td><input type="text" ng-model="editSuper.identity"></td>
       </tr>
 	  <tr>
         <td>Secret</td>
-        <td><input type="text" ng-model="editsuper.secret"></td>
+        <td><input type="text" ng-model="editSuper.secret"></td>
       </tr>
 	  <tr>
         <td>team_members</td>
-        <td><input type="text" ng-model="editsuper.team_members"></td>
+        <td><input type="text" ng-model="editSuper.team_members"></td>
       </tr>
 	    <tr>
         <td>main_Super_Power</td>
-        <td><input type="text" ng-model="editsuper.main_Super_Power"></td>
+        <td><input type="text" ng-model="editSuper.main_Super_Power"></td>
       </tr>
       <tr>
         <td colspan="5">
-          <button class="btn btn-info btn-xs" ng-click="updatesuper(editsuper)">
+          <button class="btn btn-info btn-xs" ng-click="updateSuperh(editSuper)">
             Update
           </button>
         </td>
@@ -339,7 +341,7 @@
         <th ng-repeat="key in keysCarte">{{key}}</th>
         <th style="width:210px;">Options</th>
       </tr>
-      <tr ng-repeat="item in biblioteca.data" data-id="{{item.id}}" class ="cod_{{item.cod}}">
+      <tr ng-repeat="item in biblioteca.data" data-id="{{item.cod}}" class ="cod_{{item.cod}}">
         <td>{{ item.cod }}</td>
         <td>{{ item.titlu }}</td>
 		<td>{{ item.gen }}</td>
@@ -421,7 +423,7 @@
       </tr>
       <tr>
         <td colspan="5">
-          <button class="btn btn-info btn-xs" ng-click="updatebook(editbook)">
+          <button class="btn btn-info btn-xs" ng-click="updatebooko(editbook)">
             Update
           </button>
         </td>
@@ -687,7 +689,7 @@
   <div class="container">
     <footer class="footer">
       <p class="text-muted pull-left">AWJ Base Project &copy; 2015-2016</p>
-      <p class="text-muted pull-right">Sirbu Nicolae-Cezar, 331AA</p>
+      <p class="text-muted pull-right">Stroescu Bogdan Theodor, 332AB</p>
     </footer>
   </div>
 
